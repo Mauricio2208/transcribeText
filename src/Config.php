@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Maced0\Transcribe;
+namespace Maced0\TranscribeText;
 
 class Config
 {
