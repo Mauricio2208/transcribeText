@@ -1,21 +1,13 @@
 {
     "name": "maced0/transcribe-text",
-    "description": "PHP transcribe text",
-    "keywords": [
-        "text",
-        "service",
-        "php",
-        "lib",
-        "transcribe"
-    ],
-    "license": "MIT",
+    "description": "",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Mauricio Macedo",
             "email": "mauriciomacedo7015@gmail.com"
         }
     ],
-    "type": "package",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {},
