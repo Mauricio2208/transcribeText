@@ -1,12 +1,12 @@
 {
     "name": "maced0/transcribe-text",
-    "description": "PHP Connector Lib for Memcrab Core API",
+    "description": "PHP transcribe text",
     "keywords": [
-        "connector",
+        "text",
         "service",
         "php",
         "lib",
-        "memcrab"
+        "transcribe"
     ],
     "license": "MIT",
     "authors": [
@@ -17,7 +17,7 @@
     ],
     "type": "package",
     "require": {
-        "php": ">=7.4"
+        "php": "^7.2.5|^8.0"
     },
     "autoload": {
         "psr-4": {
