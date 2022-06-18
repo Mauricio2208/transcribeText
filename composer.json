@@ -1,0 +1,27 @@
+{
+    "name": "maced0/transcribeText",
+    "description": "PHP Connector Lib for Memcrab Core API",
+    "keywords": [
+        "connector",
+        "service",
+        "php",
+        "lib",
+        "memcrab"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mauricio Macedo",
+            "email": "mauriciomacedo7015@gmail.com"
+        }
+    ],
+    "type": "package",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Maced0\\TranscribeText\\": "src/"
+        }
+    }
+}
