@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Maced0\Transcribe;
-
-use Maced0\TranscribeText\Config;
-
+namespace Maced0\TranscribeText;
 class Transcribe
 {
     private $config;
@@ -14,14 +11,14 @@ class Transcribe
         $this->config = $config;
     }
 
-    public function transcribe(string $text) {
+    public function transcribe(string $text, string $outputText) {
         $rules = $this->config->getRules();
 
         foreach ($rules as $rule) {
             $result = $this->checkRule($rule, $text);
 
             if ($result['searchs'] == $result['matchs']) {
-                return $this->makeText($text);
+                return $this->makeText($rule, $text, $outputText);
             }
         }
 
@@ -45,7 +42,38 @@ class Transcribe
         ];
     }
 
-    private function makeText($text) {
-        return 'oi';
+    private function makeText(array $rule, string $text, string $outputText) {
+        $variables = $this->getVariables($rule['variables'], $text);
+        
+        foreach ($variables as $name => $value) {
+            $name = str_replace(' ', '', $name);
+            $search = [
+                '{{'.$name.'}}',
+                '{{ '.$name.'}}',
+                '{{ '.$name.' }}',
+                '{{'.$name.' }}'
+            ];
+
+            $outputText = str_replace($search, $value, $outputText);
+        }
+
+        return $outputText;
+    }
+
+    private function getVariables(array $variables, $text) {
+        $vars = [];
+        $rows = [];
+        preg_match_all('/.+/', $text, $rows);
+        $rows = $rows[0];
+
+        foreach ($rows as $row) {
+            foreach ($variables as $variable) {
+                if (($pos = strpos($row, $variable['identifier'])) !== FALSE) { 
+                    $vars[$variable['name']] = substr($row, $pos+strlen($variable['identifier']));
+                }
+            }
+        }
+
+        return $vars;
     }
 }
