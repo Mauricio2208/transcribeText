@@ -11,14 +11,14 @@ class Transcribe
         $this->config = $config;
     }
 
-    public function transcribe(string $text, string $outputText) {
+    public function transcribe(string $text) {
         $rules = $this->config->getRules();
 
         foreach ($rules as $rule) {
             $result = $this->checkRule($rule, $text);
 
-            if ($result['searchs'] == $result['matchs']) {
-                return $this->makeText($rule, $text, $outputText);
+            if ($result['searchs'] >= $result['matchs']) {
+                return $this->makeText($rule, $text);
             }
         }
 
@@ -42,9 +42,10 @@ class Transcribe
         ];
     }
 
-    private function makeText(array $rule, string $text, string $outputText) {
+    private function makeText(array $rule, string $text) {
         $variables = $this->getVariables($rule['variables'], $text);
-        
+        $outputText = '';
+
         foreach ($variables as $name => $value) {
             $name = str_replace(' ', '', $name);
             $search = [
@@ -54,7 +55,7 @@ class Transcribe
                 '{{'.$name.' }}'
             ];
 
-            $outputText = str_replace($search, $value, $outputText);
+            $outputText = str_replace($search, $value, $rule['outputText']);
         }
 
         return $outputText;
