@@ -18,7 +18,8 @@ class Transcribe
             $result = $this->checkRule($rule, $text);
 
             if ($result['searchs'] == $result['matchs']) {
-                return $this->makeText($rule, $text);
+                return str_replace('\n', '
+                ', $this->makeText($rule, $text));
             }
         }
 
