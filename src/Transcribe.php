@@ -82,7 +82,7 @@ class Transcribe
                         $variableText = '';
 
                         for ($i=1; $i <= $count; $i++) { 
-                            $variableText .= $rows[$key+$i].'\n';
+                            $variableText .= trim($rows[$key+$i].'\n');
                         }
 
                         $vars[$variable['name']] = nl2br($variableText);
