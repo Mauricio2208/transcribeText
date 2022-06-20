@@ -44,7 +44,7 @@ class Transcribe
 
     private function makeText(array $rule, string $text) {
         $variables = $this->getVariables($rule['variables'], $text);
-        $outputText = '';
+        $outputText = $rule['outputText'];
 
         foreach ($variables as $name => $value) {
             $name = str_replace(' ', '', $name);
@@ -54,7 +54,7 @@ class Transcribe
                 '{{ '.$name.' }}',
                 '{{'.$name.' }}'
             ];
-            $outputText = str_replace($search, $value, $rule['outputText']);
+            $outputText = str_replace($search, $value, $outputText);
         }
 
         return $outputText;
