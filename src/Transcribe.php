@@ -18,8 +18,11 @@ class Transcribe
             $result = $this->checkRule($rule, $text);
 
             if ($result['searchs'] == $result['matchs']) {
-                return str_replace('\n', '
-                ', $this->makeText($rule, $text));
+                $rows = [];
+                preg_match_all('/.+/', $text, $rows);
+                $rows = $rows[0];
+                return trim(str_replace('\n', '
+', $this->makeText($rule, $text)));
             }
         }
 
@@ -55,7 +58,7 @@ class Transcribe
                 '{{ '.$name.' }}',
                 '{{'.$name.' }}'
             ];
-            $outputText = str_replace($search, $value, $outputText);
+            $outputText = str_replace($search, trim($value), $outputText);
         }
 
         return $outputText;
@@ -79,13 +82,14 @@ class Transcribe
                             $count = $variable['count_lines'];
                         }
 
-                        $variableText = '';
+                        $variableText = [];
 
-                        for ($i=1; $i <= $count; $i++) { 
-                            $variableText .= trim($rows[$key+$i].'\n');
+                        for ($i=1; $i <= $count; $i++) {
+                            $variableText[] = trim($rows[$key+$i]);
                         }
+                        $variableText = implode(' \n ', $variableText);
 
-                        $vars[$variable['name']] = nl2br($variableText);
+                        $vars[$variable['name']] = $variableText;
                     }
                 }
             }
