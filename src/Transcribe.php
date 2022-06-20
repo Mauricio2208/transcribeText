@@ -17,7 +17,7 @@ class Transcribe
         foreach ($rules as $rule) {
             $result = $this->checkRule($rule, $text);
 
-            if ($result['searchs'] >= $result['matchs']) {
+            if ($result['searchs'] == $result['matchs']) {
                 return $this->makeText($rule, $text);
             }
         }
@@ -54,7 +54,6 @@ class Transcribe
                 '{{ '.$name.' }}',
                 '{{'.$name.' }}'
             ];
-
             $outputText = str_replace($search, $value, $rule['outputText']);
         }
 
@@ -67,10 +66,26 @@ class Transcribe
         preg_match_all('/.+/', $text, $rows);
         $rows = $rows[0];
 
-        foreach ($rows as $row) {
+        foreach ($rows as $key => $row) {
             foreach ($variables as $variable) {
                 if (($pos = strpos($row, $variable['identifier'])) !== FALSE) { 
-                    $vars[$variable['name']] = substr($row, $pos+strlen($variable['identifier']));
+                    if (!isset($variable['where']) || $variable['where'] == "res_line")
+                        $vars[$variable['name']] = substr($row, $pos+strlen($variable['identifier']));
+                    if (isset($variable['where']) && $variable['where'] == "below_line") {
+                        $count = 1;
+
+                        if (isset($variable['count_lines'])) {
+                            $count = $variable['count_lines'];
+                        }
+
+                        $variableText = '';
+
+                        for ($i=1; $i <= $count; $i++) { 
+                            $variableText .= $rows[$key+$i].'\n';
+                        }
+
+                        $vars[$variable['name']] = nl2br($variableText);
+                    }
                 }
             }
         }

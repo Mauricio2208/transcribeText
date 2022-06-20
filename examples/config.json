@@ -1,0 +1,12 @@
+[
+    {
+        "search": ["[COPIA]"],
+        "variables": [{"identifier":"Nome: ","name":"name", "where":"res_line"}],
+        "outputText": "I am {{ name }}"
+    },
+    {
+        "search": ["[COPIA1]"],
+        "variables": [{"identifier":"As linhas abaixo","name":"lines", "where":"below_line", "count_lines":2}],
+        "outputText": "Linhas a baixo: \n{{ lines }}"
+    }
+]
